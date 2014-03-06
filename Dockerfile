@@ -14,7 +14,7 @@
 
 from ubuntu:precise
 
-maintainer Dockerfiles
+maintainer Luca Ognibene
 
 run echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
 run apt-get update
@@ -41,12 +41,9 @@ run rm /etc/nginx/sites-enabled/default
 run ln -s /home/docker/code/nginx-app.conf /etc/nginx/sites-enabled/
 run ln -s /home/docker/code/supervisor-app.conf /etc/supervisor/conf.d/
 
-# run pip install
+# add flipyourcard code and setup it
+add /root/flipyourcard /home/docker/code/app
 run pip install -r /home/docker/code/app/requirements.txt
-
-# install django, normally you would remove this step because your project would already
-# be installed in the code/app/ directory
-run django-admin.py startproject website /home/docker/code/app/ 
 
 expose 80
 cmd ["supervisord", "-n"]
